@@ -17,7 +17,7 @@ export default async function Home() {
     <div className="min-h-screen bg-zinc-50 p-8 font-sans dark:bg-zinc-950">
       <div className="mx-auto max-w-4xl">
         <h1 className="mb-8 text-4xl font-bold text-zinc-900 dark:text-zinc-100">
-          Database Test Page
+          Agorai Database Test Page
         </h1>
 
         <div className="mb-8 rounded-lg bg-white p-6 shadow dark:bg-zinc-900">

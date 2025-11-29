@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { createUser, updateUser } from '@/actions/users'
 
 type User = {
-    id: number
+    id: string
     name: string | null
     email: string
 }

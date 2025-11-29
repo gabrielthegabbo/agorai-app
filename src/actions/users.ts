@@ -10,9 +10,7 @@ export async function getUsers() {
             include: {
                 posts: true,
             },
-            orderBy: {
-                id: 'desc',
-            },
+
         })
         return { success: true, data: users }
     } catch (error) {
@@ -22,7 +20,7 @@ export async function getUsers() {
 }
 
 // Get a single user
-export async function getUser(id: number) {
+export async function getUser(id: string) {
     try {
         const user = await prisma.user.findUnique({
             where: { id },
@@ -71,7 +69,7 @@ export async function createUser(formData: FormData) {
 }
 
 // Update a user
-export async function updateUser(id: number, formData: FormData) {
+export async function updateUser(id: string, formData: FormData) {
     try {
         const email = formData.get('email') as string
         const name = formData.get('name') as string
@@ -96,7 +94,7 @@ export async function updateUser(id: number, formData: FormData) {
 }
 
 // Delete a user
-export async function deleteUser(id: number) {
+export async function deleteUser(id: string) {
     try {
         // First delete all posts by this user
         await prisma.post.deleteMany({

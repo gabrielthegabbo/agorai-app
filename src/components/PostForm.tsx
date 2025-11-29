@@ -4,12 +4,7 @@ import { useState, useEffect } from 'react'
 import { createPost, updatePost } from '@/actions/posts'
 import { getUsers } from '@/actions/users'
 import { Post } from '@/types/post'
-
-type User = {
-    id: number
-    name: string | null
-    email: string
-}
+import { UserBasic } from '@/types/user'
 
 type PostFormProps = {
     editingPost: Post | null
@@ -18,7 +13,7 @@ type PostFormProps = {
 }
 
 export default function PostForm({ editingPost, onSuccess, onCancel }: PostFormProps) {
-    const [users, setUsers] = useState<User[]>([])
+    const [users, setUsers] = useState<UserBasic[]>([])
     const [formData, setFormData] = useState({
         title: '',
         content: '',
@@ -42,7 +37,7 @@ export default function PostForm({ editingPost, onSuccess, onCancel }: PostFormP
                 title: editingPost.title,
                 content: editingPost.content || '',
                 published: editingPost.published,
-                authorId: editingPost.authorId.toString(),
+                authorId: editingPost.authorId,
             })
         } else {
             setFormData({

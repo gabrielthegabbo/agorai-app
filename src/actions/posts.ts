@@ -1,4 +1,4 @@
-'use server'    
+'use server'
 
 import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
@@ -16,9 +16,6 @@ export async function getPosts() {
                     },
                 },
             },
-            orderBy: {
-                id: 'desc',
-            },
         })
         return { success: true, data: posts }
     } catch (error) {
@@ -28,7 +25,7 @@ export async function getPosts() {
 }
 
 // Get a single post
-export async function getPost(id: number) {
+export async function getPost(id: string) {
     try {
         const post = await prisma.post.findUnique({
             where: { id },
@@ -60,7 +57,7 @@ export async function createPost(formData: FormData) {
         const title = formData.get('title') as string
         const content = formData.get('content') as string
         const published = formData.get('published') === 'true'
-        const authorId = parseInt(formData.get('authorId') as string)
+        const authorId = formData.get('authorId') as string
 
         if (!title || !authorId) {
             return { success: false, error: 'Title and author are required' }
@@ -93,7 +90,7 @@ export async function createPost(formData: FormData) {
 }
 
 // Update a post
-export async function updatePost(id: number, formData: FormData) {
+export async function updatePost(id: string, formData: FormData) {
     try {
         const title = formData.get('title') as string
         const content = formData.get('content') as string
@@ -126,7 +123,7 @@ export async function updatePost(id: number, formData: FormData) {
 }
 
 // Delete a post
-export async function deletePost(id: number) {
+export async function deletePost(id: string) {
     try {
         await prisma.post.delete({
             where: { id },

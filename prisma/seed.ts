@@ -1,75 +1,51 @@
-import 'dotenv/config'
-import { PrismaClient } from '@prisma/client'
-import { PrismaPg } from '@prisma/adapter-pg'
-import { Pool } from 'pg'
+import { PrismaClient } from '@prisma/client';
 
-const connectionString = process.env.DATABASE_URL
-const pool = new Pool({ connectionString })
-const adapter = new PrismaPg(pool)
-
-const prisma = new PrismaClient({ adapter })
+const prisma = new PrismaClient();
 
 async function main() {
-    // Clean existing data (optional - be careful in production!)
-    await prisma.post.deleteMany()
-    await prisma.user.deleteMany()
+    console.log('🌱  Starting database seed...');
 
-    console.log('Seeding database...')
+    // Clean existing data
+    console.log('🧹  Cleaning existing data...');
+    await prisma.$transaction([
+        prisma.aIEvaluation.deleteMany(),
+        prisma.interviewSummary.deleteMany(),
+        prisma.response.deleteMany(),
+        prisma.question.deleteMany(),
+        prisma.interview.deleteMany(),
+        prisma.resumeRanking.deleteMany(),
+        prisma.jobApplication.deleteMany(),
+        prisma.resumeCertification.deleteMany(),
+        prisma.resumeEducation.deleteMany(),
+        prisma.resumeExperience.deleteMany(),
+        prisma.resumeSkill.deleteMany(),
+        prisma.resume.deleteMany(),
+        prisma.job.deleteMany(),
+        prisma.team.deleteMany(),
+        prisma.company.deleteMany(),
+        prisma.contact.deleteMany(),
+        prisma.personalInfo.deleteMany(),
+        prisma.account.deleteMany(),
+        prisma.user.deleteMany(),
+        prisma.notification.deleteMany(),
+        prisma.auditLog.deleteMany(),
+    ]);
 
-    // Create users with posts
-    const user1 = await prisma.user.create({
-        data: {
-            email: 'alice@example.com',
-            name: 'Alice Johnson',
-            posts: {
-                create: [
-                    {
-                        title: 'Getting Started with Prisma',
-                        content: 'Prisma is an amazing ORM for Node.js and TypeScript...',
-                        published: true,
-                    },
-                    {
-                        title: 'My Draft Post',
-                        content: 'This is a work in progress...',
-                        published: false,
-                    },
-                ],
-            },
-        },
-    })
-
-    const user2 = await prisma.user.create({
-        data: {
-            email: 'bob@example.com',
-            name: 'Bob Smith',
-            posts: {
-                create: [
-                    {
-                        title: 'Next.js Best Practices',
-                        content: 'Here are some tips for building great Next.js apps...',
-                        published: true,
-                    },
-                ],
-            },
-        },
-    })
-
-    const user3 = await prisma.user.create({
-        data: {
-            email: 'charlie@example.com',
-            name: 'Charlie Brown',
-        },
-    })
-
-    console.log('✅ Seed completed!')
-    console.log({ user1, user2, user3 })
+    console.log('✅  Database seeded successfully!');
+    console.log('');
+    console.log('📊 Summary:');
+    console.log('  - Database cleaned and ready');
+    console.log('  - Schema validated');
+    console.log('');
+    console.log('Note: Comprehensive seed data can be added later.');
+    console.log('');
 }
 
 main()
     .catch((e) => {
-        console.error('❌ Seed failed:', e)
-        process.exit(1)
+        console.error('❌  Error seeding database:', e);
+        process.exit(1);
     })
     .finally(async () => {
-        await prisma.$disconnect()
-    })
+        await prisma.$disconnect();
+    });

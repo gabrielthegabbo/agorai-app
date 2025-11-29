@@ -10,7 +10,7 @@ import { Post } from '@/types/post'
 type Tab = 'posts' | 'users'
 
 type User = {
-    id: number
+    id: string
     name: string | null
     email: string
     posts: any[]
